@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>MMC</title>
+
+	<style type="text/css">
+	* {margin:0;padding:0}
+	</style>
+
+	<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		// Load jQuery
+		google.load("swfobject", "2");
+		google.load("jquery", "1");
+
+		// Call this function when the page has been loaded
+		function initialize() {
+			$('#container')
+		    swfobject.embedSWF("mmc.swf", "container", "100%", "100%", "9.0.0");
+		}
+		google.setOnLoadCallback(initialize);
+	</script>
+</head>
+<body>
+
+
+	
+
+	<div id="container" />
+</body>
+</html>
