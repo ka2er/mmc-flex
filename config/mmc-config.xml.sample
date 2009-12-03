@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flex-config>
+   <compiler>
+      <services>/full_path_to/mmc-flex/config/services-config.xml</services>		
+   </compiler>
+</flex-config>
