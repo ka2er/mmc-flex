@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mx:ApplicationControlBar xmlns:mx="http://www.adobe.com/2006/mxml"
+	dock="false"
+	cornerRadius="0"
+	width="100%"
+ 	>
+
+	<mx:Script>
+	<![CDATA[
+		import vo.Film
+		import model.Model
+		import business.events.LoadFilmsEvent
+	
+		[Bindable]		
+		public var _model:Model = Model.getInstance();
+		
+		private function updateSearchFilter():void{
+			_model.search = search.text.toLowerCase()
+			_model.films.filterFunction = _model.search ? searchFilter : null
+			_model.films.refresh()
+		}
+		
+		private function searchFilter(f:Film):Boolean {
+			var xtitre:String  = f.titre.toLowerCase()
+			return xtitre.indexOf(_model.search) >= 0
+		}
+
+		private function clearFilter():void{
+			search.text = ''
+			updateSearchFilter()
+		}
+
+	]]>
+	</mx:Script>	
+
+	<mx:Label text="Search:"  />
+	<mx:TextInput width="100%" maxWidth="200" 
+		id="search" 
+		change="updateSearchFilter()"
+	/>
+	<mx:Button click="clearFilter()" label="clear"/>
+	<mx:Spacer width="100%" />
+	<mx:Button click="clearFilter();new LoadFilmsEvent().dispatch()" label="refresh"/>
+</mx:ApplicationControlBar>

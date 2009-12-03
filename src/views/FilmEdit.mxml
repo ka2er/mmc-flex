@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+    title="{_model.film.path+'/'+_model.film.file}"
+    status="active"
+    showCloseButton="true"
+    creationComplete="init()"
+    close="PopUpManager.removePopUp(this);"
+>
+
+    <mx:Script>
+        <![CDATA[       
+			import mx.managers.PopUpManager
+			import mx.controls.Text
+			import mx.controls.Alert
+			import mx.utils.URLUtil
+			import mx.core.Application
+			
+			import Math
+			        	
+			import business.events.FilmEvent
+			        	
+			import model.Model
+			
+			import vo.Film
+			import vo.Setting
+			
+			import com.adobe.utils.StringUtil
+			
+            // A reference to the TextInput control in which to put the result.
+            //public var loginName:Text
+
+			[Bindable]
+			private var tmp_titre:String
+			
+			[Bindable]
+			private var new_file_name:String           
+           
+			[Bindable]
+			private var _model:Model = Model.getInstance();
+			
+			
+			private function cleanupTitle(s:String):String {
+
+				if(autocut.selected) {
+					// des le premier - on ne rencontre plus le titre mais des infos diverses et variees			
+					var t:Array = s.split('-')	
+					s = t[0]
+					
+					// suppression de la fin du titre si detection de chaines de separation				
+					var found:Number
+					var garbageIdx:Number = s.length
+					for each(var sep:Setting in _model.settings.separatorKeywordsList) {
+						found = s.toLowerCase().indexOf(sep.name.toLowerCase())
+						if(found > 0) {
+							//Alert.show(found.toString(), 'search for '+sep.name.toLowerCase())
+							garbageIdx = Math.min(garbageIdx, found)
+						}
+					}
+					s = s.substring(0, garbageIdx)
+				}
+				
+				if(autoclean.selected) {
+					// suppression des caracteres non voulu
+					for each (var blackList:Setting in _model.settings.unwantedCharsList) {
+						s = StringUtil.replace(s, blackList.name, ' ')
+					}
+				}
+				return s								
+			}
+			
+			private function reformatTitle(s:String):String{
+				s = StringUtil.trim(s)
+
+				var words:Array = s.split( " " )
+				for(var i:int = 0; i < words.length; i++) {
+				  words[i] = words[i].substr(0, 1).toUpperCase() + words[i].substr(1) 
+				}
+			    s = words.join(" ")
+				return s
+			}
+			
+			private function updateFileName():void{
+				
+				var s:String
+				
+				// ici on ajout du camelUpperCase !!
+				
+				s = cleanupTitle(tiTitre.text)
+				
+				s = reformatTitle(s)
+				
+				s += '-' + lang.selectedLabel
+				s += '.' + quality.selectedLabel
+				s += '.' + video.selectedLabel
+				s += '.' + audio.selectedLabel
+				
+				s += '.' + _model.film.ext
+				
+				computedFileName.text = destination.selectedLabel + '/' + s
+			}
+			
+			
+			private function init():void{
+				tmp_titre=_model.film.titre
+				tiTitre.validateNow()
+				tiTitre.width = tiTitre.textWidth + 10
+				updateFileName()
+				FilmEvent.getExtraInfosEvent(_model.film).dispatch()
+			}
+
+	       	private function handleMouseWheel(event:MouseEvent):void{
+	        	slider.value += event.delta
+	        	maskTitle()
+	       	}			
+	       
+			private function maskTitle():void{
+	       		tiTitre.text = _model.film.titre.substr(0, slider.value)
+				updateFileName()	
+	       	}
+	       	
+	       	private function previewFilm():void{
+	       	
+	       		var server:String = URLUtil.getServerName(Application.application.url)
+	       		server = "films-flex"
+	       	
+	       		//navigateToURL(new URLRequest('http://www.google.fr/preview/'), '_blank');
+	       		//navigateToURL(new URLRequest('file:///'+_model.film.path+'/'+_model.film.file), '_blank');
+	       		navigateToURL(new URLRequest('http://'+server+'/preview.php?file='+_model.film.path+'/'+_model.film.file), '_blank');
+	       	}
+
+            // Event handler for the OK button.
+            private function rename():void {
+                //loginName.text="Name entered: " + userName.text; 
+                FilmEvent.renameEvent(_model.film, computedFileName.text).dispatch()
+                PopUpManager.removePopUp(this)
+            }
+
+        ]]>
+    </mx:Script>
+
+	<mx:Canvas
+		width="100%"
+		height="100%">
+	
+	
+	<mx:Form left="0">
+		<mx:FormHeading label="Edition du film" />
+		
+		
+		<mx:FormItem label="Titre">
+			<mx:TextInput text="{tmp_titre}" id="tiTitre"
+				change="updateFileName()" />
+		</mx:FormItem>
+
+		<mx:FormItem>
+			<mx:HSlider
+				id="slider"
+				width="{tiTitre.width}" 
+				showDataTip="false"
+				minimum="0" 
+				maximum="{_model.film.titre.length}" 
+				value="{_model.film.titre.length}"
+				change="maskTitle()" 
+				mouseWheel="handleMouseWheel(event)"
+		/>
+		</mx:FormItem>
+		
+		<mx:FormItem>
+			<mx:CheckBox label="Auto cut" selected="true" id="autocut" change="updateFileName()" />
+			<mx:CheckBox label="Auto clean" selected="true" id="autoclean" change="updateFileName()" />
+			
+		</mx:FormItem>
+	
+		<mx:FormItem label="Langue">
+			<mx:ComboBox dataProvider="{_model.settings.langList}" 
+				labelField="name"
+				id="lang"
+				change="updateFileName()"
+			/>
+		</mx:FormItem>
+	
+		<mx:FormItem label="Qualité">
+			<mx:ComboBox dataProvider="{_model.settings.qualityList}" 
+				labelField="name"
+				id="quality"
+				change="updateFileName()"
+			/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Codec vidéo">
+			<mx:ComboBox dataProvider="{_model.settings.videoCodecList}" 
+				labelField="name"
+				id="video"
+				change="updateFileName()"
+			/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Codec Audio">
+			<mx:ComboBox dataProvider="{_model.settings.audioCodecList}" 
+				labelField="name"
+				id="audio"
+				change="updateFileName()"
+			/>
+		</mx:FormItem>
+		
+		<mx:FormItem label="Destination">
+			<mx:ComboBox dataProvider="{_model.settings.pathList}" 
+				labelField="name"
+				id="destination"
+				change="updateFileName()"
+			/>
+		</mx:FormItem>
+		<mx:FormItem>
+			<mx:Label id="computedFileName"/>
+		</mx:FormItem>
+		
+		<mx:FormItem>
+			<mx:HBox>
+		        <mx:Button label="Renommer" click="rename();"/>
+		        <mx:Button label="Annuler" click="PopUpManager.removePopUp(this);"/>
+			</mx:HBox>
+		</mx:FormItem>
+	</mx:Form>
+	
+	<mx:Form
+		right="0"
+	>
+	
+	
+		<mx:FormItem label="Resolution"><mx:Label text="{_model.film.resolution}" /></mx:FormItem>
+		<mx:FormItem label="Codec Video"><mx:Label text="{_model.film.video_codec}" /></mx:FormItem>
+		<mx:FormItem label="Codec Audio"><mx:Label text="{_model.film.audio_codec}" /></mx:FormItem>
+		<mx:FormItem label="NB Audio"><mx:Label text="{_model.film.nb_audio_stream}" /></mx:FormItem>
+		<mx:FormItem>
+			<mx:LinkButton label="Voir" click="previewFilm()"/>
+		</mx:FormItem>
+	</mx:Form>
+	
+	</mx:Canvas>
+</mx:TitleWindow>

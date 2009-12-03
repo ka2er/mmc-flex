@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml"
+	horizontalAlign="center">
+	<mx:Script>
+	<![CDATA[
+		import mx.collections.ArrayCollection
+		import flash.utils.describeType
+	
+		import business.events.SettingEvent
+		import model.Model
+		
+		import vo.Settings
+		import vo.Setting
+		
+		[Bindable]
+		private var _model:Model = Model.getInstance()
+		
+		private function updateSettingList(setting:Object, settings:vo.Settings):Array{
+			return settings[setting.prop]
+		}
+		
+		private function add():void {
+			_model.setting = new Setting()
+			_model.setting.name = setting_to_add.text
+			setting_to_add.text = ''
+			SettingEvent.getCreateEvent(_model.setting, settingName.selectedLabel).dispatch()
+		} 
+		
+		private function del():void {
+			_model.setting = settingsList.selectedItem as Setting
+			SettingEvent.getDeleteEvent(_model.setting, settingName.selectedLabel).dispatch()
+		}
+		
+	]]>
+	</mx:Script>
+
+	<mx:Form>
+		<mx:VBox>
+			
+			<mx:HBox>
+				<mx:Label text="Table" />
+				<mx:ComboBox id="settingName" 
+					dataProvider="{_model.settingNameCollection}"
+					labelField="table"
+					/>
+			</mx:HBox>
+
+			<mx:HBox>
+				<mx:List id="settingsList" 
+					dataProvider="{updateSettingList(settingName.selectedItem, _model.settings)}" 
+					labelField="name"
+					width="200" 
+					height="300"/>
+				<mx:Button label="Delete" 
+					click="del()"
+				enabled="{settingsList.selectedItem != null}"/>	
+			</mx:HBox>
+
+			<mx:HBox>
+				<mx:TextInput id="setting_to_add"  width="200"/>
+				<mx:Button label="Add" 
+					click="add()" 
+					enabled="{setting_to_add.text.length > 0}"/>
+				
+			</mx:HBox>
+		</mx:VBox>
+	</mx:Form>
+</mx:Panel>

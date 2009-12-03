@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:business="business.*"
+	xmlns:views="views.*"
+	
+	xmlns:c="*"
+	width="100%" height="100%" horizontalAlign="center" verticalAlign="middle"
+	
+	creationComplete="init()"
+	>
+	<!--xmlns:kapit="fr.kapit.*"-->
+	
+	<mx:Script>
+		<![CDATA[
+		
+		import mx.core.Container
+		import model.Model
+		import mx.controls.Alert
+		
+		import business.events.LoadSettingsEvent
+		
+		[Bindable]
+		public var _model:Model = Model.getInstance()
+	
+		private function init():void{
+			new LoadSettingsEvent().dispatch();
+		}
+		
+		private function selectView(viewId:Number):Container {
+			switch(viewId) {
+			
+				case Model.FILMS_LIST_VIEW:
+					Alert.show('yo')
+					return filmList		
+					break;
+					
+				case Model.HOME_VIEW:
+				default:
+					return home
+					
+			}
+			return home
+		}
+		
+		/*
+		
+		TODO :
+		- show more infos based on real films
+		- add persitence about film infos ?
+		- find allocine informations
+		- dans la fiche d'edition passer au film suivant facilement ..
+		- dans la fiche d'edition avoir des details sur les proprietes du film ....		
+		DONE :
+		- allow to rename a film
+		- retrieve real film
+		- add Event to CRUD operation
+		- add settings and sqlite backend to store them
+		
+		*/
+		
+		
+		]]>
+	
+	</mx:Script>
+	
+	<!--<kapit:KapInspect />-->
+	
+<!--	<kapit:CairngormConsole modelLocator="{Model.getInstance()}"/>-->
+	<business:MmcController />
+	<business:Services />
+	
+	
+	<mx:ButtonBar dataProvider="{myViewStack}" />
+	
+	
+<!--		selectedChild="{selectView(_model.appNavigation)}"-->
+	<mx:ViewStack id="myViewStack"
+		width="100%"
+		height="100%"
+	>
+	
+		<mx:Panel label="Accueil" id="home">
+			<mx:Label text="MMC is an application to organize your films" />
+		</mx:Panel>
+		
+		<views:FilmList label="Liste des films" id="filmList"/>
+		
+		<views:Settings label="Paramètres" id="settings" />
+		
+		<!-- <views:FilmEdit label="Edit" film="Le seigneur des anneaux"/>
+		 -->
+	</mx:ViewStack>
+</mx:Application>

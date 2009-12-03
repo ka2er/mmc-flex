@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rds:ServiceLocator xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:rds="com.adobe.cairngorm.business.*">
+
+<!--	<mx:HTTPService id="films"-->
+<!--		url="http://www.google.fr" />-->
+
+	<mx:RemoteObject id="filmService"
+	    showBusyCursor="true"
+	    destination="zend"
+	    source="films" />
+	<mx:RemoteObject id="settingsService"
+	    showBusyCursor="true"
+	    destination="zend"
+	    source="settings" />
+<!--	    <mx:method name="" />-->
+</rds:ServiceLocator>

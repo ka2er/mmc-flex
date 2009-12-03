@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:views="views.*"
+
+	width="100%"
+	height="100%"
+	horizontalAlign="center"
+	verticalGap="10"
+>
+	<mx:Script>
+	<![CDATA[
+		import business.events.LoadFilmsEvent
+		import model.Model
+		import vo.Film
+		
+		import mx.managers.PopUpManager
+		
+		[Bindable]
+		private var _model:Model = Model.getInstance()
+
+		private function editFilm(film:Object):void{
+		
+			_model.film = film as Film
+		
+			var editor:FilmEdit=FilmEdit(PopUpManager.createPopUp( this, FilmEdit , true));
+			
+			editor.width = this.width * 0.8
+			editor.height = this.height * 0.8
+			
+			
+			PopUpManager.centerPopUp(editor)
+
+			// Calculate position of TitleWindow in Application's coordinates. 
+			/*
+			point1.x=myButton.x;
+			point1.y=myButton.y;                
+			point1=myButton.localToGlobal(point1);
+			login.x=point1.x+25;
+			login.y=point1.y+25;
+			*/
+			// Pass a reference to the TextInput control
+			// to the TitleWindow container so that the 
+			// TitleWindow container can return data to the main application.
+			//login.loginName=returnedName;
+		}
+
+	]]>
+	</mx:Script>
+	
+	
+	<mx:DataGrid
+		id="filmList"
+		creationComplete="new LoadFilmsEvent().dispatch()"
+		dataProvider="{_model.films}"
+		width="100%"
+		height="100%"
+		change="editFilm(filmList.selectedItem)"
+		>
+		<mx:columns>
+			<mx:DataGridColumn headerText="Film" dataField="file"/>
+			<mx:DataGridColumn headerText="Path" dataField="path"/>
+		</mx:columns>
+	</mx:DataGrid>	
+	
+	<views:Search top="0"/>
+	
+</mx:Panel>
