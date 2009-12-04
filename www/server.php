@@ -21,6 +21,9 @@ try {
 	$logger = new Zend_Log($writer);
 
 	/* la base de données */
+	if(!file_exists('db')) // on cree le rep de la base de donnée si il n'existe pas
+		mkdir('db');
+
 	$db = Zend_Db::factory('Pdo_Sqlite', array(
 		'dbname' => 'db/mmc.db'
 	));
