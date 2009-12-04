@@ -79,6 +79,9 @@
 				return s
 			}
 			
+			/**
+			 * met a jour le nom du film de destination
+			 */
 			private function updateFileName():void{
 				
 				var s:String
@@ -100,10 +103,31 @@
 			}
 			
 			
+			/**
+			 * choisit l'item (vo.Setting) du combobox dont la propriété name correspond à value
+			 * 
+			 * @param	ComboBox	combo
+			 * @param	String		value
+			 */
+			private function updateDestination(combo:ComboBox, value:String):void{
+				for (var i:int=0; i<combo.dataProvider.length; i++) {
+					// Get this item's data 
+					var item:String = combo.dataProvider[i].name; // it's a vo.Setting
+					// Check if is selectedValue 
+					if(item == value) {
+						// Yes, set selectedIndex 
+						combo.selectedIndex = i;
+						break;
+					}
+				}
+			}
+			
+			
 			private function init():void{
-				tmp_titre=_model.film.titre
+				tmp_titre = _model.film.titre
 				tiTitre.validateNow()
 				tiTitre.width = tiTitre.textWidth + 10
+				updateDestination(destination, _model.film.path)
 				updateFileName()
 				FilmEvent.getExtraInfosEvent(_model.film).dispatch()
 			}
