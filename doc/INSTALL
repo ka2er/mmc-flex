@@ -2,3 +2,5 @@ TODO
 comment form my dev machine@home
 describe here flex configuration needed ...
 
+
+export GIT_SSH=plink
