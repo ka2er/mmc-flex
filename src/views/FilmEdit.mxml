@@ -240,7 +240,7 @@
 		
 		<mx:FormItem>
 			<mx:HBox>
-		        <mx:Button label="Renommer" click="rename();"/>
+		        <mx:Button label="Appliquer" click="rename();"/>
 		        <mx:Button label="Annuler" click="PopUpManager.removePopUp(this);"/>
 			</mx:HBox>
 		</mx:FormItem>
