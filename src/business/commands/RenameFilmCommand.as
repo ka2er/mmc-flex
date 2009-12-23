@@ -20,28 +20,28 @@ package business.commands {
 
 	public class RenameFilmCommand extends SequenceCommand implements ICommand, IResponder {
 		
-		private var _model:Model = Model.getInstance()
+		private var _model:Model = Model.getInstance();
 				
 		override public function execute(e:CairngormEvent):void
 		{
 			nextEvent = new LoadFilmsEvent();			
-			new FilmDelegate(this).rename(FilmEvent(e).film, FilmEvent(e).name)			
+			new FilmDelegate(this).rename(FilmEvent(e).film, FilmEvent(e).name);			
 		}
 		
 		public function result(r:Object):void {
 			
 			
 			if(r.result) { // si on recoit un 1 le renommage est OK => on envoit l'evenement suivant
-			    executeNextCommand()
+			    executeNextCommand();
 			} else {
-				Alert.show('Erreur lors du déplacement')	
+				Alert.show('Erreur lors du déplacement');	
 			}
 			//_model.settings = r.result as Settings
 
 		}
 		
 		public function fault(f : Object):void {
-			Alert.show("RenameFilmCommand : Erreur lors du renommage" + f)
+			Alert.show("RenameFilmCommand : Erreur lors du renommage" + f);
 		}
 	}
 }

@@ -7,27 +7,27 @@
 
 	<mx:Script>
 	<![CDATA[
-		import vo.Film
-		import model.Model
-		import business.events.LoadFilmsEvent
+		import vo.Film;
+		import model.Model;
+		import business.events.LoadFilmsEvent;
 	
 		[Bindable]		
 		public var _model:Model = Model.getInstance();
 		
 		private function updateSearchFilter():void{
-			_model.search = search.text.toLowerCase()
-			_model.films.filterFunction = _model.search ? searchFilter : null
-			_model.films.refresh()
+			_model.search = search.text.toLowerCase();
+			_model.films.filterFunction = _model.search ? searchFilter : null;
+			_model.films.refresh();
 		}
 		
 		private function searchFilter(f:Film):Boolean {
-			var xtitre:String  = f.titre.toLowerCase()
-			return xtitre.indexOf(_model.search) >= 0
+			var xtitre:String  = f.titre.toLowerCase();
+			return xtitre.indexOf(_model.search) >= 0;
 		}
 
 		private function clearFilter():void{
-			search.text = ''
-			updateSearchFilter()
+			search.text = '';
+			updateSearchFilter();
 		}
 
 	]]>

@@ -21,35 +21,35 @@ package business.commands {
 
 	public class LoadSettingsCommand implements ICommand, IResponder {
 		
-		private var _model:Model = Model.getInstance()
+		private var _model:Model = Model.getInstance();
 				
 		public function execute(e:CairngormEvent):void
 		{
-			new SettingsDelegate( this ).load()			
+			new SettingsDelegate( this ).load();		
 		}
 		
 		public function result(r:Object):void {
 			// l'objets settings complet
-			_model.settings = r.result as Settings
+			_model.settings = r.result as Settings;
 			
 			// la liste des parametres n'est initialisés qu'une fois...
 			if(_model.settingNameCollection == null) {
-				var settingsInfo:XML = describeType(_model.settings)
-				var ac:ArrayCollection = new ArrayCollection()
-				var prop:String
-				var table:String 
+				var settingsInfo:XML = describeType(_model.settings);
+				var ac:ArrayCollection = new ArrayCollection();
+				var prop:String;
+				var table:String;
 				for each (var v:XML in settingsInfo..accessor) {
-					prop = v.@name
-					table = prop.substr(0, prop.length -4) // tableName => table_name
-					table = table.replace(/([A-Z])/g, "_$1").toLowerCase()
-					ac.addItem({prop:prop, table:table})
+					prop = v.@name;
+					table = prop.substr(0, prop.length -4); // tableName => table_name
+					table = table.replace(/([A-Z])/g, "_$1").toLowerCase();
+					ac.addItem({prop:prop, table:table});
 				}
-				_model.settingNameCollection = ac
+				_model.settingNameCollection = ac;
 			}
 		}
 		
 		public function fault(f : Object):void {
-			Alert.show("LoadSettingsCommand : Erreur de chargement des paramêtres"+f)	
+			Alert.show("LoadSettingsCommand : Erreur de chargement des paramêtres"+f);	
 		}
 	}
 }

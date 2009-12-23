@@ -15,26 +15,26 @@ package model
 	public class Model implements ModelLocator
 	{
 		// singleton
-		private static var _instance:Model = null
+		private static var _instance:Model = null;
 		
 		// vues
-		public static const HOME_VIEW:Number=0
-		public static const FILMS_LIST_VIEW:Number=1
+		public static const HOME_VIEW:Number=0;
+		public static const FILMS_LIST_VIEW:Number=1;
 		
 		// etat navigation general
-		public var appNavigation:Number = HOME_VIEW
+		public var appNavigation:Number = HOME_VIEW;
 		
 		// variables globales de data		
-		public var films:ArrayCollection
-		public var film:Film = new Film()
+		public var films:ArrayCollection;
+		public var film:Film = new Film();
 
-		public var setting:Setting /* parametre en cours */
-		public var settings:Settings /* liste des parametres */
-		public var settingNameCollection:ArrayCollection /* liste des noms de parametres sour forme de tableaux */
+		public var setting:Setting; /* parametre en cours */
+		public var settings:Settings; /* liste des parametres */
+		public var settingNameCollection:ArrayCollection; /* liste des noms de parametres sour forme de tableaux */
 		
-		public var search:String
+		public var search:String;
 		
-		public var DEBUG:* = null
+		public var DEBUG:* = null;
 		
 		public function Model()
 		{
@@ -43,7 +43,7 @@ package model
 		
 		public static function getInstance():Model {
 			if(_instance == null)
-				_instance = new Model()
+				_instance = new Model();
 				 
 			return _instance; 
 		}

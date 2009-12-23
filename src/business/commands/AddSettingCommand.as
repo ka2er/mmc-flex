@@ -20,25 +20,25 @@ package business.commands {
 
 	public class AddSettingCommand extends SequenceCommand implements ICommand, IResponder {
 		
-		private var _model:Model = Model.getInstance()
+		private var _model:Model = Model.getInstance();
 				
 		override public function execute(e:CairngormEvent):void
 		{
 			nextEvent = new LoadSettingsEvent();			
-			new SettingsDelegate( this ).add(SettingEvent(e).setting, SettingEvent(e).setting_name)			
+			new SettingsDelegate( this ).add(SettingEvent(e).setting, SettingEvent(e).setting_name);	
 		}
 		
 		public function result(r:Object):void {
 			
 			if(r.result) // si on recoit un ID le ADD est OK => on envoit l'evenement suivant
-			    executeNextCommand()
+			    executeNextCommand();
 			
 			//_model.settings = r.result as Settings
 
 		}
 		
 		public function fault(f : Object):void {
-			Alert.show("AddSettingCommand : Erreur lors de l'ajout")	
+			Alert.show("AddSettingCommand : Erreur lors de l'ajout");	
 		}
 	}
 }

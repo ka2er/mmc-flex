@@ -3,32 +3,29 @@
 	horizontalAlign="center">
 	<mx:Script>
 	<![CDATA[
-		import mx.collections.ArrayCollection
-		import flash.utils.describeType
-	
-		import business.events.SettingEvent
-		import model.Model
+		import business.events.SettingEvent;
+		import model.Model;
 		
-		import vo.Settings
-		import vo.Setting
+		import vo.Settings;
+		import vo.Setting;
 		
 		[Bindable]
-		private var _model:Model = Model.getInstance()
+		private var _model:Model = Model.getInstance();
 		
 		private function updateSettingList(setting:Object, settings:vo.Settings):Array{
-			return settings[setting.prop]
+			return settings[setting.prop];
 		}
 		
 		private function add():void {
-			_model.setting = new Setting()
-			_model.setting.name = setting_to_add.text
-			setting_to_add.text = ''
-			SettingEvent.getCreateEvent(_model.setting, settingName.selectedLabel).dispatch()
+			_model.setting = new Setting();
+			_model.setting.name = setting_to_add.text;
+			setting_to_add.text = '';
+			SettingEvent.getCreateEvent(_model.setting, settingName.selectedLabel).dispatch();
 		} 
 		
 		private function del():void {
-			_model.setting = settingsList.selectedItem as Setting
-			SettingEvent.getDeleteEvent(_model.setting, settingName.selectedLabel).dispatch()
+			_model.setting = settingsList.selectedItem as Setting;
+			SettingEvent.getDeleteEvent(_model.setting, settingName.selectedLabel).dispatch();
 		}
 		
 	]]>
@@ -60,7 +57,7 @@
 				<mx:TextInput id="setting_to_add"  width="200"/>
 				<mx:Button label="Add" 
 					click="add()" 
-					enabled="{setting_to_add.text.length > 0}"/>
+					enabled="{setting_to_add.text.length as Boolean}"/> <!-- TO TEST : was setting_to_add.text.length > 0 -->
 				
 			</mx:HBox>
 		</mx:VBox>

@@ -14,14 +14,14 @@
 	<mx:Script>
 		<![CDATA[
 		
-		import mx.core.Container
-		import model.Model
-		import mx.controls.Alert
+		import mx.core.Container;
+		import model.Model;
+		import mx.controls.Alert;
 		
-		import business.events.LoadSettingsEvent
+		import business.events.LoadSettingsEvent;
 		
 		[Bindable]
-		public var _model:Model = Model.getInstance()
+		public var _model:Model = Model.getInstance();
 	
 		private function init():void{
 			new LoadSettingsEvent().dispatch();
@@ -31,16 +31,16 @@
 			switch(viewId) {
 			
 				case Model.FILMS_LIST_VIEW:
-					Alert.show('yo')
-					return filmList		
+					Alert.show('yo');
+					return filmList	;	
 					break;
 					
 				case Model.HOME_VIEW:
 				default:
-					return home
+					return home;
 					
 			}
-			return home
+			return home;
 		}
 		
 		/*

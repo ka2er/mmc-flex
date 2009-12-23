@@ -9,26 +9,26 @@
 >
 	<mx:Script>
 	<![CDATA[
-		import business.events.LoadFilmsEvent
-		import model.Model
-		import vo.Film
+		import business.events.LoadFilmsEvent;
+		import model.Model;
+		import vo.Film;
 		
-		import mx.managers.PopUpManager
+		import mx.managers.PopUpManager;
 		
 		[Bindable]
-		private var _model:Model = Model.getInstance()
+		private var _model:Model = Model.getInstance();
 
 		private function editFilm(film:Object):void{
 		
-			_model.film = film as Film
+			_model.film = film as Film;
 		
 			var editor:FilmEdit=FilmEdit(PopUpManager.createPopUp( this, FilmEdit , true));
 			
-			editor.width = this.width * 0.8
-			editor.height = this.height * 0.8
+			editor.width = this.width * 0.8;
+			editor.height = this.height * 0.8;
 			
 			
-			PopUpManager.centerPopUp(editor)
+			PopUpManager.centerPopUp(editor);
 
 			// Calculate position of TitleWindow in Application's coordinates. 
 			/*

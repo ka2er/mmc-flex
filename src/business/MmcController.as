@@ -19,14 +19,14 @@ package business {
 			
 	public class MmcController extends FrontController {
 		public function MmcController() {
-			super()
+			super();
 			
-			addCommand(LoadFilmsEvent.EVENT_ID, LoadFilmsCommand)
-			addCommand(LoadSettingsEvent.EVENT_ID, LoadSettingsCommand)
-			addCommand(SettingEvent.CREATE_SETTING, AddSettingCommand)
-			addCommand(SettingEvent.DELETE_SETTING, DelSettingCommand)
-			addCommand(FilmEvent.RENAME_FILM, RenameFilmCommand)
-			addCommand(FilmEvent.GET_EXTRA_INFOS_FILM, GetExtraInfosFilmCommand)
+			addCommand(LoadFilmsEvent.EVENT_ID, LoadFilmsCommand);
+			addCommand(LoadSettingsEvent.EVENT_ID, LoadSettingsCommand);
+			addCommand(SettingEvent.CREATE_SETTING, AddSettingCommand);
+			addCommand(SettingEvent.DELETE_SETTING, DelSettingCommand);
+			addCommand(FilmEvent.RENAME_FILM, RenameFilmCommand);
+			addCommand(FilmEvent.GET_EXTRA_INFOS_FILM, GetExtraInfosFilmCommand);
 			
 		}
 	}

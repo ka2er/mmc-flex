@@ -7,7 +7,7 @@ package vo
 	[RemoteClass(alias="SettingVO")]
 	public class Setting
 	{	
-		public var id:Number
-		public var name:String
+		public var id:Number;
+		public var name:String;
 	}
 }
