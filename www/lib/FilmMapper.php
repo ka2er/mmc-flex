@@ -6,11 +6,6 @@ class FilmMapper
 	protected $_path = array();
 	protected $_extensions; // comma separated
 
-	public function __construct(){
-
-	}
-
-
 	private function _init(){
 
 		global $logger;
@@ -31,7 +26,7 @@ class FilmMapper
 	}
 
     /**
-     * retourne la liste des films trouvï¿½s
+     * retourne la liste des films trouvés
      * @return array
      */
     public function fetchAll()
@@ -44,19 +39,18 @@ class FilmMapper
 
 		foreach($this->_path as $path) {
 	    	$pattern = $path . DIRECTORY_SEPARATOR .'*.{'.$this->_extensions.'}';
-	    	foreach(glob(sql_regcase($pattern), GLOB_BRACE) as $file) { // sql_regcase pour matcher avi et AVI
-	    		//$t[] = new Default_Model_Film($file);
+	    	//$logger->log($pattern, Zend_Log::DEBUG);
+	    	foreach(glob($pattern, GLOB_BRACE) as $file) { // sql_regcase pour matcher avi et AVI
 	    		$logger->log("Found film $file", Zend_Log::DEBUG);
 	    		$t[] = new Film($file);
 	    	}
 		}
 
-		//$logger->log(implode($t), Zend_Log::DEBUG);
     	return $t;
     }
 
     /**
-     * simulation de la liste des films trouvï¿½s
+     * simulation de la liste des films trouvés
      * @return array
      */
     public function simulateFetchAll()
