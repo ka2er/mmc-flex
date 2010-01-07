@@ -16,6 +16,12 @@
 			return settings[setting.prop];
 		}
 		
+		private function getSettingDesc(setting:Object):String {
+			if(setting.table)	
+				return _model.settings.description[setting.table];
+			return '';
+		}
+		
 		private function add():void {
 			_model.setting = new Setting();
 			_model.setting.name = setting_to_add.text;
@@ -42,6 +48,11 @@
 					/>
 			</mx:HBox>
 
+			<mx:Text
+				text="{getSettingDesc(settingName.selectedItem)}"
+				width="100%"
+				 />
+
 			<mx:HBox>
 				<mx:List id="settingsList" 
 					dataProvider="{updateSettingList(settingName.selectedItem, _model.settings)}" 
@@ -50,15 +61,14 @@
 					height="300"/>
 				<mx:Button label="Delete" 
 					click="del()"
-				enabled="{settingsList.selectedItem != null}"/>	
+					enabled="{settingsList.selectedItem != null}"/>	
 			</mx:HBox>
 
 			<mx:HBox>
 				<mx:TextInput id="setting_to_add"  width="200"/>
 				<mx:Button label="Add" 
 					click="add()" 
-					enabled="{setting_to_add.text.length as Boolean}"/> <!-- TO TEST : was setting_to_add.text.length > 0 -->
-				
+					enabled="{setting_to_add.text.length > 0}"/>
 			</mx:HBox>
 		</mx:VBox>
 	</mx:Form>

@@ -3,4 +3,16 @@ comment form my dev machine@home
 describe here flex configuration needed ...
 
 
-export GIT_SSH=plink
+avec flex builder :
+-------------------
+dans properties => flex compiler :
+-locale en_US -services "../config/services-config.xml"
+
+
+
+
+sous git + win
+--------------
+
+git push => export GIT_SSH=plink
+git pull => export http_proxy

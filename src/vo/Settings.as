@@ -3,13 +3,11 @@
  */
 package vo
 {
-	//import mx.collections.ArrayCollection
-	//import vo.Setting
-		
 	[Bindable]
 	[RemoteClass(alias="SettingsVO")]
 	public class Settings
 	{	
+		public var description:Object;
 		public var langList:Array;
 		public var qualityList:Array;
 		public var videoCodecList:Array;

@@ -2,20 +2,37 @@
 require_once "Setting.php";
 require_once "Settings.php";
 
+/**
+ * Settins manipulation class (load, add, del)
+ */
 class SettingsMapper
 {
 	protected $_path;
 	protected $_extensions; // comma separated
 
 	protected $_tables = array(
-			'lang',
-			'quality',
-			'video_codec',
-			'audio_codec',
-			'container',
-			'separator_keywords',
-			'path',
-			'unwanted_chars'
+		'lang',
+		'quality',
+		'video_codec',
+		'audio_codec',
+		'container',
+		'separator_keywords',
+		'path',
+		'unwanted_chars'
+	);
+
+	/**
+	 * array of object wich describe the tables
+	 */
+	protected $_description = array(
+		'lang' => 'Code de langue (version courte) : FR, EN, etc...',
+		'quality' => 'Qualité du film : DVDRiP, SCREENER, etc...',
+		'video_codec' => 'Codec vidéo : DiVX, X264, etc..',
+		'audio_codec' => 'Codec audio : AC3, OGG, etc ...',
+		'container' => 'Format du conainter : avi, mkv, etc...',
+		'separator_keywords' => 'Chaine de séparation entre les mots à utiliser dans le nouveau nom',
+		'path' => "Chemin que l'application peut gérer (répertoires où sont les films)",
+		'unwanted_chars' => "Chaines de caractères à supprimer"
 	);
 
 	/**
@@ -47,6 +64,8 @@ class SettingsMapper
 
 	/**
 	 * retourne tous les parametres
+	 *
+	 * @return Settings
 	 */
 	public function load(){
 
@@ -68,7 +87,8 @@ class SettingsMapper
 			$t[$holder] = $xt;
 		}
 
-		return new Settings($t[0], $t[1], $t[2], $t[3], $t[4], $t[5], $t[6], $t[7]);
+		$s = new Settings($this->_description, $t[0], $t[1], $t[2], $t[3], $t[4], $t[5], $t[6], $t[7]);
+		return $s;
 	}
 
 	/**

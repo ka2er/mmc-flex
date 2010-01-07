@@ -9,7 +9,6 @@
 	
 	creationComplete="init()"
 	>
-	<!--xmlns:kapit="fr.kapit.*"-->
 	
 	<mx:Script>
 		<![CDATA[
@@ -64,9 +63,6 @@
 	
 	</mx:Script>
 	
-	<!--<kapit:KapInspect />-->
-	
-<!--	<kapit:CairngormConsole modelLocator="{Model.getInstance()}"/>-->
 	<business:MmcController />
 	<business:Services />
 	

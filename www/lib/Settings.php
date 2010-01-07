@@ -1,4 +1,8 @@
 <?php
+/**
+ * ne surtout pas utiliser de membres prefixes par _ : ils ne seront pas transmis
+ */
+
 class Settings {
 
 	public $langList;
@@ -9,10 +13,10 @@ class Settings {
 	public $separatorKeywordsList;
 	public $pathList;
 	public $unwantedCharsList;
+	public $description;
 
-	//public $_explicitType = "SettingsVO";
-
-	public function __construct($l, $q, $v, $a, $c, $s, $p, $u) {
+	public function __construct($d, $l, $q, $v, $a, $c, $s, $p, $u) {
+		$this->description = $d;
 		$this->langList = $l;
 		$this->qualityList = $q;
 		$this->videoCodecList = $v;
@@ -21,9 +25,5 @@ class Settings {
 		$this->separatorKeywordsList = $s;
 		$this->pathList = $p;
 		$this->unwantedCharsList = $u;
-	}
-
-	public function getASClassName(){
-		return "SettingsVO";
 	}
 }

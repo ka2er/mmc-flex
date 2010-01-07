@@ -39,9 +39,14 @@ package business.commands {
 				var prop:String;
 				var table:String;
 				for each (var v:XML in settingsInfo..accessor) {
+					
 					prop = v.@name;
-					table = prop.substr(0, prop.length -4); // tableName => table_name
-					table = table.replace(/([A-Z])/g, "_$1").toLowerCase();
+				
+					// ignore attributes not defining list...
+					if(prop.substr(-4) != 'List') continue;
+				
+					table = prop.substr(0, prop.length -4); // -4 pour virer xxxList...
+					table = table.replace(/([A-Z])/g, "_$1").toLowerCase(); // tableName => table_name ...
 					ac.addItem({prop:prop, table:table});
 				}
 				_model.settingNameCollection = ac;
