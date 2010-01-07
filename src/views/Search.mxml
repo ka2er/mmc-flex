@@ -3,10 +3,13 @@
 	dock="false"
 	cornerRadius="0"
 	width="100%"
+	paddingLeft="5"
+	paddingRight="5"
  	>
 
 	<mx:Script>
 	<![CDATA[
+		import mx.collections.ArrayCollection;
 		import vo.Film;
 		import model.Model;
 		import business.events.LoadFilmsEvent;
@@ -14,19 +17,33 @@
 		[Bindable]		
 		public var _model:Model = Model.getInstance();
 		
+		/* local var to hold search parameters */
+		private var filterPath:String;
+		private var filterText:String;
+		
 		private function updateSearchFilter():void{
-			_model.search = search.text.toLowerCase();
-			_model.films.filterFunction = _model.search ? searchFilter : null;
+			filterText = search.text.toLowerCase();
+			filterPath = searchPath.selectedLabel;
+			
+			_model.films.filterFunction = filterText || filterPath ? searchFilter : null;
 			_model.films.refresh();
 		}
 		
 		private function searchFilter(f:Film):Boolean {
-			var xtitre:String  = f.titre.toLowerCase();
-			return xtitre.indexOf(_model.search) >= 0;
+			var found:Boolean = true;
+			
+			if(filterText)
+				found = f.titre.toLowerCase().indexOf(filterText) >= 0; 
+			
+			if(filterPath) // les deux filtres doivent matcher
+				found = found && f.path == filterPath;
+			
+			return found;
 		}
 
 		private function clearFilter():void{
 			search.text = '';
+			searchPath.selectedIndex = -1; // unselect ...
 			updateSearchFilter();
 		}
 
@@ -38,7 +55,14 @@
 		id="search" 
 		change="updateSearchFilter()"
 	/>
-	<mx:Button click="clearFilter()" label="clear"/>
+	<mx:ComboBox
+		id="searchPath"
+		dataProvider="{_model.settings.pathList}"
+		labelField="name"
+		change="updateSearchFilter()"
+		selectedIndex="-1"
+	/>
 	<mx:Spacer width="100%" />
+	<mx:Button click="clearFilter()" label="clear"/>
 	<mx:Button click="clearFilter();new LoadFilmsEvent().dispatch()" label="refresh"/>
 </mx:ApplicationControlBar>

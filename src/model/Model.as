@@ -32,8 +32,6 @@ package model
 		public var settings:Settings; /* liste des parametres */
 		public var settingNameCollection:ArrayCollection; /* liste des noms de parametres sour forme de tableaux */
 		
-		public var search:String;
-		
 		public var DEBUG:* = null;
 		
 		public function Model()
