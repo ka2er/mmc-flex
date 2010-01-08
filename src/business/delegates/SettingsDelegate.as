@@ -30,6 +30,9 @@ package business.delegates {
 		public function del(setting:Setting, table:String):void{
 			_service.del(setting, table).addResponder(_responder);
 		}
-	}
 
+		public function reorder(setting:Setting, table:String, sens:String):void{
+			_service.reorder(setting, table, sens).addResponder(_responder);
+		}
+	}
 }

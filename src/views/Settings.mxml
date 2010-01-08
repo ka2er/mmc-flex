@@ -16,6 +16,9 @@
 			return settings[setting.prop];
 		}
 		
+		/**
+		 * retourne la description d'un paramétre
+		 */
 		private function getSettingDesc(setting:Object):String {
 			if(setting.table)	
 				return _model.settings.description[setting.table];
@@ -25,13 +28,18 @@
 		private function add():void {
 			_model.setting = new Setting();
 			_model.setting.name = setting_to_add.text;
-			setting_to_add.text = '';
+			setting_to_add.text = ''; // raz input box
 			SettingEvent.getCreateEvent(_model.setting, settingName.selectedLabel).dispatch();
 		} 
 		
 		private function del():void {
 			_model.setting = settingsList.selectedItem as Setting;
 			SettingEvent.getDeleteEvent(_model.setting, settingName.selectedLabel).dispatch();
+		}
+		
+		private function reorder(sens:String):void {
+			_model.setting = settingsList.selectedItem as Setting;
+			SettingEvent.getReorderEvent(_model.setting, settingName.selectedLabel, sens).dispatch();
 		}
 		
 	]]>
@@ -59,9 +67,17 @@
 					labelField="name"
 					width="200" 
 					height="300"/>
-				<mx:Button label="Delete" 
-					click="del()"
-					enabled="{settingsList.selectedItem != null}"/>	
+				<mx:VBox>
+					<mx:Button label="Delete" 
+						click="del()"
+						enabled="{settingsList.selectedItem != null}"/>	
+					<mx:Button label="Up" 
+						click="reorder('up')"
+						enabled="{settingsList.selectedItem != null &amp;&amp; settingsList.selectedIndex > 0}"/>	
+					<mx:Button label="Down" 
+						click="reorder('down')"
+						enabled="{settingsList.selectedItem != null &amp;&amp; settingsList.selectedIndex &lt; (settingsList.dataProvider.length-1)}"/>	
+				</mx:VBox>
 			</mx:HBox>
 
 			<mx:HBox>

@@ -63,6 +63,28 @@ class SettingsMapper
 	}
 
 	/**
+	 * Move down/up setting into the table
+	 */
+	public function reorder($setting, $table, $sens) {
+		global $logger;
+
+		$cur_id = $setting->id;
+		$other_id = $sens == 'up' ? $cur_id - 1 : $cur_id + 1;
+
+		$oTable = new Zend_Db_Table($table);
+		$where_cur = $oTable->getAdapter()->quoteInto('id = ?', $cur_id);
+		$where_other = $oTable->getAdapter()->quoteInto('id = ?', $other_id);
+		$where_tmp = $oTable->getAdapter()->quoteInto('id = ?', 999);
+
+		$oTable->update(array('id' => 999), $where_cur);
+		$oTable->update(array('id' => $cur_id), $where_other);
+		$result = $oTable->update(array('id' => $other_id), $where_tmp);
+
+		$logger->log("Reorder setting $table=$setting->id $sens", Zend_Log::INFO);
+		return $result;
+	}
+
+	/**
 	 * retourne tous les parametres
 	 *
 	 * @return Settings
@@ -77,7 +99,7 @@ class SettingsMapper
 			$oTable = new Zend_Db_Table($table);
 
 			$xt = array();
-			foreach($oTable->fetchAll($oTable->select())->toArray() as $o) {
+			foreach($oTable->fetchAll($oTable->select()->order('id ASC'))->toArray() as $o) {
 				$xsetting = new Setting();
 				$xsetting->name = $o['name'];
 				$xsetting->id = $o['id'];
