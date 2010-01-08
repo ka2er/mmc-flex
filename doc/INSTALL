@@ -1,6 +1,7 @@
-TODO
-comment form my dev machine@home
-describe here flex configuration needed ...
+INSTAL
+------
+
+- edit flashvar "server" in deploy/index.html according to your setup. 
 
 
 sous git + win
