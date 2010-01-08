@@ -3,8 +3,7 @@
  */
 package business.delegates {
 	
-	import com.adobe.cairngorm.business.ServiceLocator;
-	
+	import mx.core.Application;
 	import mx.rpc.IResponder;
 	import mx.rpc.remoting.RemoteObject;
 	
@@ -12,7 +11,7 @@ package business.delegates {
 	public class SettingsDelegate {
 	
 		private var _responder:IResponder;
-		private var _service:RemoteObject = ServiceLocator.getInstance().getRemoteObject("settingsService");
+		private var _service:RemoteObject = Application.application.ro_settings;
 			
 		public function SettingsDelegate(responder:IResponder) {
 			super();

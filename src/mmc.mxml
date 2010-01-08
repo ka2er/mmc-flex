@@ -12,51 +12,78 @@
 	
 	<mx:Script>
 		<![CDATA[
+			import mx.messaging.Channel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import com.adobe.cairngorm.business.ServiceLocator;
+			import mx.messaging.channels.AMFChannel;
 		
-		import mx.core.Container;
-		import model.Model;
-		import mx.controls.Alert;
-		
-		import business.events.LoadSettingsEvent;
-		
-		[Bindable]
-		public var _model:Model = Model.getInstance();
-	
-		private function init():void{
-			new LoadSettingsEvent().dispatch();
-		}
-		
-		private function selectView(viewId:Number):Container {
-			switch(viewId) {
+			import mx.core.Container;
+			import model.Model;
+			import mx.controls.Alert;
 			
-				case Model.FILMS_LIST_VIEW:
-					Alert.show('yo');
-					return filmList	;	
-					break;
-					
-				case Model.HOME_VIEW:
-				default:
-					return home;
-					
+			import business.events.LoadSettingsEvent;
+			
+			[Bindable]
+			public var _model:Model = Model.getInstance();
+		
+			/* on stock les objets de type service distant ici => a mettre dans le model ? */ 
+			public var ro_film:RemoteObject;
+			public var ro_settings:RemoteObject;
+		
+			private function init():void{
+				
+				/* def du service PHP distant */
+				var channelSet:ChannelSet = new ChannelSet();
+				var zendChannel:Channel = new AMFChannel("zend-endpoint", Application.application.parameters.server);
+				channelSet.addChannel(zendChannel);
+	
+				ro_film = new RemoteObject("filmService");
+				ro_film.destination = "zend";
+				ro_film.channelSet = channelSet;
+				ro_film.source = 'films';
+				ro_film.showBusyCursor = true;
+	
+				ro_settings = new RemoteObject("zend-endpoint");
+				ro_settings.destination = "zend";
+				ro_settings.channelSet = channelSet;
+				ro_settings.source = 'settings';
+				ro_settings.showBusyCursor = true;
+				
+				new LoadSettingsEvent().dispatch();
 			}
-			return home;
-		}
 		
-		/*
-		
-		TODO :
-		- show more infos based on real films
-		- add persitence about film infos ?
-		- find allocine informations
-		- dans la fiche d'edition passer au film suivant facilement ..
-		- dans la fiche d'edition avoir des details sur les proprietes du film ....		
-		DONE :
-		- allow to rename a film
-		- retrieve real film
-		- add Event to CRUD operation
-		- add settings and sqlite backend to store them
-		
-		*/
+			private function selectView(viewId:Number):Container {
+				switch(viewId) {
+				
+					case Model.FILMS_LIST_VIEW:
+						Alert.show('yo');
+						return filmList	;	
+						break;
+						
+					case Model.HOME_VIEW:
+					default:
+						return home;
+						
+				}
+				return home;
+			}
+			
+			/*
+			
+			TODO :
+			- show more infos based on real films
+			- add persitence about film infos ?
+			- find allocine informations
+			- dans la fiche d'edition passer au film suivant facilement ..
+			- dans la fiche d'edition avoir des details sur les proprietes du film ....		
+			DONE :
+			- allow to rename a film
+			- retrieve real film
+			- add Event to CRUD operation
+			- add settings and sqlite backend to store them
+			
+			*/
 		
 		
 		]]>
@@ -64,8 +91,6 @@
 	</mx:Script>
 	
 	<business:MmcController />
-	<business:Services />
-	
 	
 	<mx:ButtonBar dataProvider="{myViewStack}" />
 	
@@ -79,12 +104,7 @@
 		<mx:Panel label="Accueil" id="home">
 			<mx:Label text="MMC is an application to organize your films" />
 		</mx:Panel>
-		
 		<views:FilmList label="Liste des films" id="filmList"/>
-		
 		<views:Settings label="Paramètres" id="settings" />
-		
-		<!-- <views:FilmEdit label="Edit" film="Le seigneur des anneaux"/>
-		 -->
 	</mx:ViewStack>
 </mx:Application>

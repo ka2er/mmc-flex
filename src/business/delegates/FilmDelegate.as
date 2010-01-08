@@ -3,9 +3,7 @@
  */
 package business.delegates {
 	
-	import com.adobe.cairngorm.business.ServiceLocator;
-	
-	import mx.rpc.http.HTTPService;
+	import mx.core.Application;
 	import mx.rpc.IResponder;
 	import mx.rpc.remoting.RemoteObject;
 	
@@ -15,7 +13,7 @@ package business.delegates {
 	public class FilmDelegate {
 	
 		private var _responder:IResponder;
-		private var _service:RemoteObject = ServiceLocator.getInstance().getRemoteObject("filmService");
+		private var _service:RemoteObject = Application.application.ro_film;
 			
 		public function FilmDelegate(responder:IResponder) {
 			super();

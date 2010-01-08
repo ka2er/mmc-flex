@@ -3,14 +3,6 @@ comment form my dev machine@home
 describe here flex configuration needed ...
 
 
-avec flex builder :
--------------------
-dans properties => flex compiler :
--locale en_US -services "../config/services-config.xml"
-
-
-
-
 sous git + win
 --------------
 
