@@ -12,11 +12,7 @@
 	
 	<mx:Script>
 		<![CDATA[
-			import mx.messaging.Channel;
-			import mx.messaging.ChannelSet;
-			import mx.rpc.remoting.RemoteObject;
-			import com.adobe.cairngorm.business.ServiceLocator;
-			import mx.messaging.channels.AMFChannel;
+			import business.Services;
 		
 			import mx.core.Container;
 			import model.Model;
@@ -27,30 +23,11 @@
 			[Bindable]
 			public var _model:Model = Model.getInstance();
 		
-			/* on stock les objets de type service distant ici => a mettre dans le model ? */ 
-			public var ro_film:RemoteObject;
-			public var ro_settings:RemoteObject;
-		
 			private function init():void{
 				
-				/* def du service PHP distant */
-				var channelSet:ChannelSet = new ChannelSet();
-				var zendChannel:Channel = new AMFChannel("zend-endpoint", Application.application.parameters.server);
-				channelSet.addChannel(zendChannel);
-	
-				ro_film = new RemoteObject("filmService");
-				ro_film.destination = "zend";
-				ro_film.channelSet = channelSet;
-				ro_film.source = 'films';
-				ro_film.showBusyCursor = true;
-	
-				ro_settings = new RemoteObject("zend-endpoint");
-				ro_settings.destination = "zend";
-				ro_settings.channelSet = channelSet;
-				ro_settings.source = 'settings';
-				ro_settings.showBusyCursor = true;
+				Services.getInstance(); // init de la configuration des services
 				
-				new LoadSettingsEvent().dispatch();
+				new LoadSettingsEvent().dispatch(); // chargement dse preferences
 			}
 		
 			private function selectView(viewId:Number):Container {

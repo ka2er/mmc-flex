@@ -3,15 +3,17 @@
  */
 package business.delegates {
 	
-	import mx.core.Application;
+	import business.Services;
+	
 	import mx.rpc.IResponder;
 	import mx.rpc.remoting.RemoteObject;
 	
-	import vo.Setting;	
+	import vo.Setting;
+	
 	public class SettingsDelegate {
 	
 		private var _responder:IResponder;
-		private var _service:RemoteObject = Application.application.ro_settings;
+		private var _service:RemoteObject = Services.getInstance().services.settingsService;
 			
 		public function SettingsDelegate(responder:IResponder) {
 			super();

@@ -3,18 +3,18 @@
  */
 package business.delegates {
 	
-	import mx.core.Application;
+	import business.Services;
+	
 	import mx.rpc.IResponder;
 	import mx.rpc.remoting.RemoteObject;
 	
 	import vo.Film;
 	
-	//import vo.DVD;
 	public class FilmDelegate {
 	
 		private var _responder:IResponder;
-		private var _service:RemoteObject = Application.application.ro_film;
-			
+		private var _service:RemoteObject = Services.getInstance().services.filmsService;
+					
 		public function FilmDelegate(responder:IResponder) {
 			super();
 			_responder = responder;
