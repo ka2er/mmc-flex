@@ -30,6 +30,7 @@
 				new LoadSettingsEvent().dispatch(); // chargement dse preferences
 			}
 		
+			/*
 			private function selectView(viewId:Number):Container {
 				switch(viewId) {
 				
@@ -45,6 +46,8 @@
 				}
 				return home;
 			}
+			*/
+			
 			
 			/*
 			
@@ -80,6 +83,9 @@
 	
 		<mx:Panel label="Accueil" id="home">
 			<mx:Label text="MMC is an application to organize your films" />
+			<mx:Button 
+				label="Rapporter un bug"
+				click="navigateToURL(new URLRequest('http://github.com/ka2er/mmc-flex/issues'), '_blank')"/>
 		</mx:Panel>
 		<views:FilmList label="Liste des films" id="filmList"/>
 		<views:Settings label="Paramètres" id="settings" />
