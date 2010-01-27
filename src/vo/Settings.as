@@ -16,5 +16,6 @@ package vo
 		public var separatorKeywordsList:Array;
 		public var pathList:Array;
 		public var unwantedCharsList:Array;
+		public var unwantedProposedList:Array;
 	}
 }

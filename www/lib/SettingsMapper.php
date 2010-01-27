@@ -18,7 +18,8 @@ class SettingsMapper
 		'container',
 		'separator_keywords',
 		'path',
-		'unwanted_chars'
+		'unwanted_chars',
+		'unwanted_proposed',
 	);
 
 	/**
@@ -26,13 +27,14 @@ class SettingsMapper
 	 */
 	protected $_description = array(
 		'lang' => 'Code de langue (version courte) : FR, EN, etc...',
-		'quality' => 'Qualité du film : DVDRiP, SCREENER, etc...',
-		'video_codec' => 'Codec vidéo : DiVX, X264, etc..',
+		'quality' => 'QualitÃ© du film : DVDRiP, SCREENER, etc...',
+		'video_codec' => 'Codec vidÃ©o : DiVX, X264, etc..',
 		'audio_codec' => 'Codec audio : AC3, OGG, etc ...',
 		'container' => 'Format du conainter : avi, mkv, etc...',
-		'separator_keywords' => 'Chaine de séparation entre les mots à utiliser dans le nouveau nom',
-		'path' => "Chemin que l'application peut gérer (répertoires où sont les films)",
-		'unwanted_chars' => "Chaines de caractères à supprimer"
+		'separator_keywords' => 'Chaine de sÃ©paration entre les mots Ã  utiliser dans le nouveau nom',
+		'path' => "Chemin que l'application peut gÃ©rer (rÃ©pertoires oÃ¹ sont les films)",
+		'unwanted_chars' => "Chaines de caractÃ¨res Ã  supprimer",
+		'unwanted_proposed' => "Chaines de caractÃ¨res Ã  supprimer dans les propriÃ©tÃ©s de la proposition"
 	);
 
 	/**
@@ -109,7 +111,7 @@ class SettingsMapper
 			$t[$holder] = $xt;
 		}
 
-		$s = new Settings($this->_description, $t[0], $t[1], $t[2], $t[3], $t[4], $t[5], $t[6], $t[7]);
+		$s = new Settings($this->_description, $t[0], $t[1], $t[2], $t[3], $t[4], $t[5], $t[6], $t[7], $t[8]);
 		return $s;
 	}
 

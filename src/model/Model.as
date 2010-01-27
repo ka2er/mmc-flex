@@ -3,6 +3,7 @@
  */
 package model
 {
+	import mx.core.Application;
 	import com.adobe.cairngorm.model.ModelLocator;
 	
 	import mx.collections.ArrayCollection;
@@ -32,6 +33,10 @@ package model
 		public var settings:Settings; /* liste des parametres */
 		public var settingNameCollection:ArrayCollection; /* liste des noms de parametres sour forme de tableaux */
 		
+		// url diverses
+		public var php_server_url:String = 'http://films-flex/server.php';
+		public var bug_report_url:String = 'http://github.com/ka2er/mmc-flex/issues';
+		
 		public var DEBUG:* = null;
 		
 		public function Model()
@@ -40,8 +45,12 @@ package model
 		}
 		
 		public static function getInstance():Model {
-			if(_instance == null)
+			if(_instance == null) {
 				_instance = new Model();
+			
+				if(Application.application && Application.application.parameters.server) 
+					_instance.php_server_url = Application.application.parameters.server;
+			}
 				 
 			return _instance; 
 		}

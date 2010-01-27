@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
     title="{_model.film.path+'/'+_model.film.file}"
-    status="active"
     showCloseButton="true"
     creationComplete="init()"
     close="PopUpManager.removePopUp(this);"
 >
+  <!-- status="active" -->
 
     <mx:Script>
         <![CDATA[       
+			import mx.events.ListEvent;
 			import flash.net.navigateToURL;
 			import mx.managers.PopUpManager;
 			import mx.utils.URLUtil;
@@ -20,7 +21,6 @@
 			        	
 			import model.Model;
 			
-			import vo.Film;
 			import vo.Setting;
 			
 			import com.adobe.utils.StringUtil;
@@ -71,6 +71,9 @@
 			
 			private function reformatTitle(s:String):String{
 				s = StringUtil.trim(s);
+				
+				if(lowercase.selected)
+					s = s.toLowerCase();
 
 				var words:Array = s.split( " " );
 				for(var i:int = 0; i < words.length; i++) {
@@ -93,14 +96,29 @@
 				
 				s = reformatTitle(s);
 				
-				s += '-' + lang.selectedLabel;
-				s += '.' + quality.selectedLabel;
-				s += '.' + video.selectedLabel;
-				s += '.' + audio.selectedLabel;
+				if(checkProposedAgainstUnwantedList(lang.selectedLabel)) 		s += '-' + lang.selectedLabel;
+				if(checkProposedAgainstUnwantedList(quality.selectedLabel)) 	s += '.' + quality.selectedLabel;
+				if(checkProposedAgainstUnwantedList(video.selectedLabel))		s += '.' + video.selectedLabel;
+				if(checkProposedAgainstUnwantedList(audio.selectedLabel))		s += '.' + audio.selectedLabel;
 				
 				s += '.' + _model.film.ext;
 				
 				computedFileName.text = destination.selectedLabel + '/' + s;
+			}
+			
+			/**
+			 * verifie qu'une proposition de propriété technique n'est pas un motif interdit (MP3 par ex)
+			 * 
+			 * @param	string to check
+			 * @return	boolean
+			 */
+			private function checkProposedAgainstUnwantedList(s:String) : Boolean{
+				var blacklisted:Boolean = false;
+				for each(var unwanted:Setting in _model.settings.unwantedProposedList) {
+					blacklisted = blacklisted || s.toLowerCase() == unwanted.name.toLowerCase();
+				}
+				
+				return !blacklisted;
 			}
 			
 			
@@ -126,10 +144,11 @@
 			
 			private function init():void{
 				tmp_titre = _model.film.titre;
-				tiTitre.validateNow();
+				tiTitre.validateNow(); // force la maj de la zone graphique
 				tiTitre.width = tiTitre.textWidth + 10;
 				updateDestination(destination, _model.film.path);
 				updateFileName();
+				
 				FilmEvent.getExtraInfosEvent(_model.film).dispatch();
 			}
 
@@ -141,6 +160,21 @@
 			private function maskTitle():void{
 	       		tiTitre.text = _model.film.titre.substr(0, slider.value);
 				updateFileName();
+	       	}
+	       	
+	       	
+	       	private function comboBoxSelect(cb:ComboBox, label:String):void {
+	       		
+	       		if(!label) return; // a l'init une evt est declenche ... on l'ignore	
+	       		
+	       		for each (var s : Setting in cb.dataProvider) {
+					if(s.name.toLowerCase() == label.toLowerCase()) {
+						cb.selectedItem = s;
+						//cb.validateNow();
+						cb.dispatchEvent(new ListEvent(ListEvent.CHANGE));
+						return;
+					}	       			
+	       		}
 	       	}
 	       	
 	       	private function previewFilm():void{
@@ -193,6 +227,7 @@
 		<mx:FormItem>
 			<mx:CheckBox label="Auto cut" selected="true" id="autocut" change="updateFileName()" />
 			<mx:CheckBox label="Auto clean" selected="true" id="autoclean" change="updateFileName()" />
+			<mx:CheckBox label="Force lowerCase" selected="false" id="lowercase" change="updateFileName()" />
 			
 		</mx:FormItem>
 	
@@ -249,13 +284,14 @@
 	
 	<mx:Form
 		right="0"
+		backgroundColor="#cccccc"
 	>
 	
 	
-		<mx:FormItem label="Resolution"><mx:Label text="{_model.film.resolution}" /></mx:FormItem>
-		<mx:FormItem label="Codec Video"><mx:Label text="{_model.film.video_codec}" /></mx:FormItem>
-		<mx:FormItem label="Codec Audio"><mx:Label text="{_model.film.audio_codec}" /></mx:FormItem>
-		<mx:FormItem label="NB Audio"><mx:Label text="{_model.film.nb_audio_stream}" /></mx:FormItem>
+		<mx:FormItem label="Resolution"><mx:Label data="{_model.film.resolution}" /></mx:FormItem>
+		<mx:FormItem label="Codec Video"><mx:Label data="{_model.film.video_codec}" dataChange="{comboBoxSelect(video, _model.film.video_codec);}"/></mx:FormItem>
+		<mx:FormItem label="Codec Audio"><mx:Label data="{_model.film.audio_codec}" dataChange="{comboBoxSelect(audio, _model.film.audio_codec);}"/></mx:FormItem>
+		<mx:FormItem label="NB Audio"><mx:Label data="{_model.film.nb_audio_stream}" /></mx:FormItem>
 		<mx:FormItem>
 			<mx:LinkButton label="Voir" click="previewFilm()"/>
 		</mx:FormItem>

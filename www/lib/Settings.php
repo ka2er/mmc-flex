@@ -13,9 +13,10 @@ class Settings {
 	public $separatorKeywordsList;
 	public $pathList;
 	public $unwantedCharsList;
+	public $unwantedProposedList;
 	public $description;
 
-	public function __construct($d, $l, $q, $v, $a, $c, $s, $p, $u) {
+	public function __construct($d, $l, $q, $v, $a, $c, $s, $p, $u, $up) {
 		$this->description = $d;
 		$this->langList = $l;
 		$this->qualityList = $q;
@@ -25,5 +26,6 @@ class Settings {
 		$this->separatorKeywordsList = $s;
 		$this->pathList = $p;
 		$this->unwantedCharsList = $u;
+		$this->unwantedProposedList = $up;
 	}
 }

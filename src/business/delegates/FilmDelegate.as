@@ -22,7 +22,7 @@ package business.delegates {
 		
 		public function load():void{
 			//_service.simulateFetchAll().addResponder(_responder)
-			_service.fetchAll().addResponder(_responder);	
+			_service.fetchAll().addResponder(_responder);
 		}
 		
 		public function rename(film:Film, name:String):void{

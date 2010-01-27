@@ -73,7 +73,7 @@
 						enabled="{settingsList.selectedItem != null}"/>	
 					<mx:Button label="Up" 
 						click="reorder('up')"
-						enabled="{settingsList.selectedItem != null &amp;&amp; settingsList.selectedIndex > 0}"/>	
+						enabled="{settingsList.selectedItem != null &amp;&amp; settingsList.selectedIndex &gt; 0}"/>	
 					<mx:Button label="Down" 
 						click="reorder('down')"
 						enabled="{settingsList.selectedItem != null &amp;&amp; settingsList.selectedIndex &lt; (settingsList.dataProvider.length-1)}"/>	
@@ -84,7 +84,7 @@
 				<mx:TextInput id="setting_to_add"  width="200"/>
 				<mx:Button label="Add" 
 					click="add()" 
-					enabled="{setting_to_add.text.length > 0}"/>
+					enabled="{setting_to_add.text.length &gt; 0}"/>
 			</mx:HBox>
 		</mx:VBox>
 	</mx:Form>

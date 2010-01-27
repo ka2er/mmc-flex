@@ -9,7 +9,6 @@
 
 	<mx:Script>
 	<![CDATA[
-		import mx.collections.ArrayCollection;
 		import vo.Film;
 		import model.Model;
 		import business.events.LoadFilmsEvent;
