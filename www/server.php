@@ -16,12 +16,20 @@ try {
 	$autoload = Zend_Loader_Autoloader::getInstance();
 	$autoload->registerNamespace('Zend');
 
+	// pour debugger un film...
+	if (isset($_GET['film'])) {
+		require_once "FilmAnalyser.php";
+		$fa = new FilmAnalyser($_GET['film']);
+		Zend_Debug::dump($fa);
+		exit();
+	}
+
 	/* le log de debug */
 	$writer = new Zend_Log_Writer_Stream('php-errors.log');
 	$logger = new Zend_Log($writer);
 
-	/* la base de données */
-	if(!file_exists('db')) // on cree le rep de la base de donnée si il n'existe pas
+	/* la base de donnï¿½es */
+	if(!file_exists('db')) // on cree le rep de la base de donnï¿½e si il n'existe pas
 		mkdir('db');
 
 	$db = Zend_Db::factory('Pdo_Sqlite', array(
@@ -29,6 +37,7 @@ try {
 	));
 	Zend_Db_Table::setDefaultAdapter($db);
 
+	//print_r($db);
 
 	$server = new Zend_Amf_Server();
 	$server->setClassMap('FilmVO', 'Film');

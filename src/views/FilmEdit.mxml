@@ -285,6 +285,7 @@
 	<mx:Form
 		right="0"
 		backgroundColor="#cccccc"
+		click="navigateToURL(new URLRequest(_model.php_server_url+'?film='+_model.film.path+'/'+_model.film.file), '_blank')"
 	>
 	
 	
