@@ -22,10 +22,11 @@
 			import business.events.LoadSettingsEvent;
 			
 			[Bindable]
-			public var _model:Model = Model.getInstance();
+			public var _model:Model;
 		
 			private function init():void{
 				
+				_model = Model.getInstance();
 				Services.getInstance(); // init de la configuration des services
 				
 				new LoadSettingsEvent().dispatch(); // chargement dse preferences

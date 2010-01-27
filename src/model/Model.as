@@ -3,6 +3,7 @@
  */
 package model
 {
+	import mx.controls.Alert;
 	import mx.core.Application;
 	import com.adobe.cairngorm.model.ModelLocator;
 	
@@ -48,8 +49,9 @@ package model
 			if(_instance == null) {
 				_instance = new Model();
 			
-				if(Application.application && Application.application.parameters.server) 
+				if(Application.application && Application.application.parameters.server) {
 					_instance.php_server_url = Application.application.parameters.server;
+				}
 			}
 				 
 			return _instance; 
