@@ -51,7 +51,7 @@
 
 		private function clearFilter():void{
 			search.text = '';
-			searchPath.selectedIndex = -1; // unselect ...
+			searchPath.selectedIndex = 0; // unselect ...
 			updateSearchFilter();
 		}
 		
