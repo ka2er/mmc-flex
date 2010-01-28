@@ -32,6 +32,7 @@ package business.commands {
 			// l'objets settings complet
 			_model.settings = r.result as Settings;
 			
+			
 			// la liste des parametres n'est initialisés qu'une fois...
 			if(_model.settingNameCollection == null) {
 				var settingsInfo:XML = describeType(_model.settings);

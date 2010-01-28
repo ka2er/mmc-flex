@@ -3,7 +3,6 @@ package business
 	import model.Model;
 	import flash.utils.Dictionary;
 	
-	import mx.core.Application;
 	import mx.messaging.Channel;
 	import mx.messaging.ChannelSet;
 	import mx.messaging.channels.AMFChannel;

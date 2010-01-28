@@ -5,16 +5,23 @@
 	width="100%"
 	paddingLeft="5"
 	paddingRight="5"
+	creationComplete="init()"
  	>
 
 	<mx:Script>
 	<![CDATA[
+		import vo.Setting;
 		import vo.Film;
 		import model.Model;
 		import business.events.LoadFilmsEvent;
 	
+		private const LABEL_NO_PATH:String = '-- Veuillez choisir un chemin --';
+	
 		[Bindable]		
 		public var _model:Model = Model.getInstance();
+		
+		[Bindable]
+		private var path:Array = _model.settings.pathList;
 		
 		/* local var to hold search parameters */
 		private var filterPath:String;
@@ -23,6 +30,8 @@
 		private function updateSearchFilter():void{
 			filterText = search.text.toLowerCase();
 			filterPath = searchPath.selectedLabel;
+			
+			if(filterPath == LABEL_NO_PATH) filterPath = ''; // pour pouvoir facilement supprimer le label
 			
 			_model.films.filterFunction = filterText || filterPath ? searchFilter : null;
 			_model.films.refresh();
@@ -45,6 +54,13 @@
 			searchPath.selectedIndex = -1; // unselect ...
 			updateSearchFilter();
 		}
+		
+		private function init():void{
+			var s:Setting = new Setting();
+			s.name = LABEL_NO_PATH;
+			path.unshift(s);
+			searchPath.selectedIndex = 0;
+		}
 
 	]]>
 	</mx:Script>	
@@ -56,10 +72,9 @@
 	/>
 	<mx:ComboBox
 		id="searchPath"
-		dataProvider="{_model.settings.pathList}"
+		dataProvider="{path}"
 		labelField="name"
 		change="updateSearchFilter()"
-		selectedIndex="-1"
 	/>
 	<mx:Spacer width="100%" />
 	<mx:Button click="clearFilter()" label="clear"/>
