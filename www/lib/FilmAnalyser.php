@@ -23,11 +23,14 @@ class FilmAnalyser {
 	}
 
 	public function getVideoCodec(){
-    	if(isset($this->_data['video']['fourcc']))
-    		return $this->_data['video']['fourcc'];
+    		if(isset($this->_data['video']['fourcc']))
+    			return $this->_data['video']['fourcc'];
 
-    	return "VIDEO_CODEC_UNKNOW";
-	}
+		if(isset($this->_data['video']['dataformat']))
+			return $this->_data['video']['dataformat'];
+
+    		return "VIDEO_CODEC_UNKNOW";
+	}	
 
 	public function getAudioCodec(){
     	if(isset($this->_data['audio']['dataformat'])) {
