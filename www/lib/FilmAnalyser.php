@@ -71,8 +71,8 @@ class FilmAnalyser {
 
     		$x_res = $t['video']['resolution_x'];
 
-    		if($x_res >= 1080) return 'HD1080';
-    		if($x_res >= 720) return 'HD720';
+    		if($x_res >= 1080) return '1080p';
+    		if($x_res >= 720) return '720p';
 
     	}
 
