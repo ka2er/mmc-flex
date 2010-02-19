@@ -32,6 +32,9 @@ package business.delegates {
 		public function getExtraInfos(film:Film):void {
 			_service.getExtraInfos(film).addResponder(_responder);
 		}
-	}
 
+		public function createNfo(film : Film, name : String) : void {
+			_service.createNfo(film, name).addResponder(_responder);
+		}
+	}
 }

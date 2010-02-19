@@ -60,6 +60,13 @@
 		<mx:columns>
 			<mx:DataGridColumn headerText="Film" dataField="file"/>
 			<mx:DataGridColumn headerText="Path" dataField="path"/>
+			<mx:DataGridColumn headerText="Nfo" dataField="nfo" textAlign="center">
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:CheckBox selected="{data.nfo}" enabled="false"/>
+					</mx:Component>						
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
 		</mx:columns>
 	</mx:DataGrid>	
 	

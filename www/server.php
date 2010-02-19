@@ -12,7 +12,6 @@ require_once "SettingsMapper.php";
 
 try {
 
-
 	$autoload = Zend_Loader_Autoloader::getInstance();
 	$autoload->registerNamespace('Zend');
 
@@ -26,10 +25,11 @@ try {
 
 	/* le log de debug */
 	$writer = new Zend_Log_Writer_Stream('php-errors.log');
+	//$writer = new Zend_Log_Writer_Stream('php://stdout');
 	$logger = new Zend_Log($writer);
 
-	/* la base de donnï¿½es */
-	if(!file_exists('db')) // on cree le rep de la base de donnï¿½e si il n'existe pas
+	/* la base de données */
+	if(!file_exists('db')) // on cree le rep de la base de données si il n'existe pas
 		mkdir('db');
 
 	$db = Zend_Db::factory('Pdo_Sqlite', array(

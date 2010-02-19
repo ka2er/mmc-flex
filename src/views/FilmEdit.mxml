@@ -9,6 +9,7 @@
 
     <mx:Script>
         <![CDATA[       
+			import mx.controls.Alert;
 			import mx.events.ListEvent;
 			import flash.net.navigateToURL;
 			import mx.managers.PopUpManager;
@@ -189,9 +190,18 @@
 
             // Event handler for the OK button.
             private function rename():void {
-                //loginName.text="Name entered: " + userName.text; 
+                //loginName.text="Name entered: " + userName.text;
+                
                 FilmEvent.renameEvent(_model.film, computedFileName.text).dispatch();
                 PopUpManager.removePopUp(this);
+            }
+            
+            private function createNfo(txt:String):void {
+            	
+            	if(txt.length)
+            		FilmEvent.createNfoEvent(_model.film, txt).dispatch();
+            	else
+            		Alert.show('Veuillez saisir un contenu pour le fichier NFO');
             }
 
         ]]>
@@ -205,12 +215,11 @@
 	<mx:Form left="0">
 		<mx:FormHeading label="Edition du film" />
 		
-		
 		<mx:FormItem label="Titre">
-			<mx:TextInput text="{tmp_titre}" id="tiTitre"
-				change="updateFileName()" />
+				<mx:TextInput text="{tmp_titre}" id="tiTitre"
+					change="updateFileName()" />
 		</mx:FormItem>
-
+		
 		<mx:FormItem>
 			<mx:HSlider
 				id="slider"
@@ -223,12 +232,19 @@
 				mouseWheel="handleMouseWheel(event)"
 		/>
 		</mx:FormItem>
+
+		<mx:FormItem label="Edition du NFO">
+			<mx:HBox>
+				<mx:TextInput id="nfoContent" />
+				<mx:Button label="{_model.film.nfo ? 'Mettre à jour' : 'Créer' }" click="createNfo(nfoContent.text);" />
+			</mx:HBox>
+		</mx:FormItem>
+		
 		
 		<mx:FormItem>
 			<mx:CheckBox label="Auto cut" selected="true" id="autocut" change="updateFileName()" />
 			<mx:CheckBox label="Auto clean" selected="true" id="autoclean" change="updateFileName()" />
 			<mx:CheckBox label="Force lowerCase" selected="false" id="lowercase" change="updateFileName()" />
-			
 		</mx:FormItem>
 	
 		<mx:FormItem label="Langue">
@@ -271,15 +287,19 @@
 			/>
 		</mx:FormItem>
 		<mx:FormItem>
-			<mx:Label id="computedFileName"/>
+			<mx:HBox>
+				<mx:Label id="computedFileName"/>
+				<mx:Label text="{_model.film.nfo.length ? '(+NFO)' : ''}" />
+			</mx:HBox>
 		</mx:FormItem>
 		
 		<mx:FormItem>
 			<mx:HBox>
 		        <mx:Button label="Appliquer" click="rename();"/>
-		        <mx:Button label="Annuler" click="PopUpManager.removePopUp(this);"/>
+		        <mx:Button label="Fermer" click="PopUpManager.removePopUp(this);"/>
 			</mx:HBox>
 		</mx:FormItem>
+
 	</mx:Form>
 	
 	<mx:Form

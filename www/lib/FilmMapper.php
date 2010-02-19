@@ -72,6 +72,9 @@ class FilmMapper
     }
 
 
+    /**
+     * rename film and handle nfo file if present
+     */
     public function rename($film, $name){
 
     	global $logger;
@@ -79,7 +82,16 @@ class FilmMapper
     	//$logger->log("renaming $film->file to $name into $film->path", Zend_Log::DEBUG);
     	$logger->log("rename(".$film->path . DIRECTORY_SEPARATOR . $film->file.",". $name.");", Zend_Log::DEBUG);
     	$status = rename($film->path . DIRECTORY_SEPARATOR . $film->file, $name);
-    	return $status;
+
+    	$status2 = true;
+    	if($film->nfo) {
+    		$ext_length = strlen(strrchr($name, ".")) - 1;
+    		$new_nfo = substr($name, 0, -1*$ext_length).'nfo';
+    		$status2 = rename($film->nfo, $new_nfo);
+    		$logger->log("rename nfo(".$film->nfo.",". $new_nfo.");", Zend_Log::DEBUG);
+    	}
+
+    	return $status && $status2;
     }
 
     public function getExtraInfos($film) {
@@ -95,6 +107,20 @@ class FilmMapper
 
     	return $film;
     }
+
+    public function createNfo($film, $nfo_txt) {
+    	global $logger;
+
+    	$nfo_name = $film->getNfoName();
+    	$ret = file_put_contents($nfo_name, $nfo_txt."\n", FILE_APPEND);
+
+    	$logger->log("Creating/modifing $nfo_name with content : ".$nfo_txt, Zend_Log::DEBUG);
+    	if($ret)
+    		return $nfo_name;
+    	else
+    		return '';
+    }
+
 
     /**
      *

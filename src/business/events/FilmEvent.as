@@ -10,6 +10,7 @@ package business.events
 	{
 		static public const RENAME_FILM:String = "events.film.renameEvent";
 		static public const GET_EXTRA_INFOS_FILM:String = "events.film.getExtraInfosEvent";
+		static public const CREATE_NFO:String = "events.film.createNfo";
 		
 		public var film:Film;
 		public var name:String;
@@ -29,6 +30,10 @@ package business.events
 		static public function getExtraInfosEvent(film:Film):FilmEvent
 		{
 			return new FilmEvent(GET_EXTRA_INFOS_FILM, film, '');
+		}
+		
+		static public function createNfoEvent(film:Film, txt:String):FilmEvent {
+			return new FilmEvent(CREATE_NFO, film, txt);
 		}
 		
 	}

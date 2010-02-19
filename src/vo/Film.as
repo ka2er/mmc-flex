@@ -18,5 +18,7 @@ package vo
 		public var path:String;
 		public var ext:String;
 		
+		public var nfo:String;
+		
 	}
 }

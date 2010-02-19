@@ -14,6 +14,8 @@ class Film {
 	public $path;
 	public $ext;
 
+	public $nfo;
+
 	public $_explicitType = "FilmVO";
 
 	public function Film($file = null){
@@ -30,6 +32,14 @@ class Film {
 
 			$this->titre = $t['filename'];
 
+			// il y a t'il un NFO
+			$nfo = $this->getNfoName();
+			if(file_exists($nfo)) {
+				$logger->log("$nfo found", Zend_Log::DEBUG);
+				$this->nfo = $nfo;
+			}
+
+
 			/*
 			require_once "FilmAnalyser.php";
 			$fa = new FilmAnalyser($file);
@@ -37,6 +47,12 @@ class Film {
 			$this->audio_codec = $fa->getAudioCodec();
 			*/
 		}
+	}
+
+	public function getNfoName(){
+		$film_name = $this->path . DIRECTORY_SEPARATOR . $this->file;
+		$nfo = substr($film_name, 0, strlen($this->ext)*-1).'nfo';
+		return $nfo;
 	}
 
 	public function getASClassName(){

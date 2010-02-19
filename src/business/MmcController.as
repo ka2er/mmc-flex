@@ -2,6 +2,7 @@
  * @author seb
  */
 package business {
+	import business.commands.CreateNfoCommand;
 	
 	import business.commands.AddSettingCommand;
 	import business.commands.DelSettingCommand;
@@ -29,6 +30,7 @@ package business {
 			addCommand(SettingEvent.REORDER_SETTING, 	ReorderSettingCommand);
 			addCommand(FilmEvent.RENAME_FILM, 			RenameFilmCommand);
 			addCommand(FilmEvent.GET_EXTRA_INFOS_FILM, 	GetExtraInfosFilmCommand);
+			addCommand(FilmEvent.CREATE_NFO,			CreateNfoCommand);
 		}
 	}
 }
