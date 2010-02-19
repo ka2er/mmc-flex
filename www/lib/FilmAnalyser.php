@@ -6,7 +6,8 @@ class FilmAnalyser {
 	public function __construct($film){
     	require_once('getid3/getid3.php');
 
-    	error_log("analyse ".$film);
+    	global $logger;
+    	$logger->log("analyse ".$film, Zend_Log::DEBUG);
 
     	$id3 = new getid3();
 
@@ -30,7 +31,7 @@ class FilmAnalyser {
 			return $this->_data['video']['dataformat'];
 
     		return "VIDEO_CODEC_UNKNOW";
-	}	
+	}
 
 	public function getAudioCodec(){
     	if(isset($this->_data['audio']['dataformat'])) {
